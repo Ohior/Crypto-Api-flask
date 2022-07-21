@@ -1,14 +1,8 @@
-
-
 import sqlite3
-
-from cryptoDB.dataclass import CryptoDataClass
-
-
-coins_dc = CryptoDataClass()
 
 TABLE_NAME = 'Coins'
 
+# class for creating database
 class CryptoDBHelper(object):
     def __init__(self):
         self.con = sqlite3.connect('coins.db', check_same_thread=False)
@@ -34,6 +28,7 @@ class CryptoDBHelper(object):
         return insert
     
     def selectFromDatabase(self):
+        # get all data from database and convert them to list
         select = self.cur.execute(f'SELECT * FROM {TABLE_NAME}').fetchall()
         return select
     

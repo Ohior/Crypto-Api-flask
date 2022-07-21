@@ -1,3 +1,4 @@
+# create a data class so that we can use it in the program
 class CryptoDataClass():
     def __init__(self, name='', price='0', main_price=0, volume_price=0, fall_change=0, rise_change=0, all_time_high=0, liquidity=0):
         # initialise

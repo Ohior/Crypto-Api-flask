@@ -1,51 +1,44 @@
-import io
 from bs4 import BeautifulSoup
 import requests
+from cryptoDB.db_helper import DatabaseHelper
 
-from cryptoDB.db_helper import AddToDB
 
 COIN_URL = 'https://www.livecoinwatch.com'
-# crypto_dict = {'name':'', 'price':0, 'main_price':0, 'volume_price':0, 'fall_change':0, 'rise_change':0, 'all_time_high':0}
 
 
 class CryptoScrapper(object):
     def __init__(self) -> None:
+        # create a bot header (user) so as to prevent errors
         self.headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        # get the url page
         self.url_page = requests.get(COIN_URL, headers=self.headers)
+        # check if it was successful
         self.status_code = self.url_page.status_code
 
     def getPage(self):
+        # get the page data
         return self.url_page.content
     
     def getSoup(self):
+        # convert the it to BeautifulSoup so that we can scrape it
         return BeautifulSoup(self.getPage(), features="lxml")
     
     def getTableRow(self):
+        # scrape and get all the table rows
         table = []
         soup = self.getSoup()
         table_row = soup.find_all('tr')
+        # loop through all the rows
         for table_data in table_row:
             data = ''
             rows = []
+            # loop through all the table data and clean them
             for td in table_data.find_all('td'):
                 data += td.text+';'
+            # add data to rows
             rows.append(data)
+            # add rows to table
             table.append(rows)
-        return AddToDB().addToDatabase(table)
+        # add the whole table to the database
+        return DatabaseHelper().addToDatabase(table)
         
-    # def getTableRow(self):
-    #     datas = []
-    #     data = []
-    #     soup = self.getSoup()
-    #     table_row = soup.find_all('tr')
-    #     with io.open("fname.txt", "w", encoding="utf-8") as f:
-    #         for table_data in table_row:
-    #             for td in table_data.find_all('td'):
-    #                 f.writelines(td.text+";")
-    #             f.write("\n")
-
-
-    #     #         data.append(td.text)
-    #     #     datas.append(data)
-            
-    #     return "datas"
