@@ -2,6 +2,8 @@ import io
 from bs4 import BeautifulSoup
 import requests
 
+from cryptoDB.addDB import AddToDB
+
 COIN_URL = 'https://www.livecoinwatch.com'
 # crypto_dict = {'name':'', 'price':0, 'main_price':0, 'volume_price':0, 'fall_change':0, 'rise_change':0, 'all_time_high':0}
 
@@ -27,6 +29,7 @@ class CryptoScrapper(object):
             for td in table_data.find_all('td'):
                 rows += td.text+';'
             table.append(rows)
+        
             #     datas.append
             #     f.writelines(td.text+";")
             # f.write("\n")
@@ -35,7 +38,7 @@ class CryptoScrapper(object):
         #         data.append(td.text)
         #     datas.append(data)
             
-        return table
+        return AddToDB().addToDatabase(table)
     # def getTableRow(self):
     #     datas = []
     #     data = []

@@ -1,5 +1,6 @@
 # from http.client import PARTIAL_CONTENT
 from flask import Flask, render_template, jsonify
+from cryptoDB.cryptoDBhelper import CryptoDBHelper
 from scrapper.crypto_scrapper import COIN_URL, CryptoScrapper
 
 # books = [
@@ -34,11 +35,15 @@ from scrapper.crypto_scrapper import COIN_URL, CryptoScrapper
 
 app = Flask(__name__)
 cryptoScrapper = CryptoScrapper()
+cryptHelper = CryptoDBHelper()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    context = cryptHelper.selectFromDatabase()
+    cryptHelper.closeConnection()
+    print(f'context {context}')
+    return render_template('index.html', context=context)
     
 if __name__ == '__main__':
-    print(cryptoScrapper.getTableRow())
+    # cryptoScrapper.getTableRow()
     app.run(debug=True)

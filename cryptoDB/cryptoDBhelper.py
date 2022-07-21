@@ -11,9 +11,8 @@ TABLE_NAME = 'Coins'
 
 class CryptoDBHelper(object):
     def __init__(self):
-        self.con = sqlite3.connect('coins.db')
+        self.con = sqlite3.connect('coins.db', check_same_thread=False)
         self.cur = self.con.cursor()
-        self.deleteAll
     
     def createTable(self):
         self.cur.execute(f'''
@@ -40,3 +39,9 @@ class CryptoDBHelper(object):
     
     def deleteAll(self):
         self.cur.execute(f'DROP TABLE IF EXISTS {TABLE_NAME}')
+    
+    def saveDatabase(self):
+        self.con.commit()
+    
+    def closeConnection(self):
+        self.con.close()
