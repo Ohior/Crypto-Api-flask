@@ -3,6 +3,7 @@
 Flask Api is an api built with Flask micro framework, that aims at provide to top 50 crypto traders.
 It works by scrapping the a webpage, getting the clean data, storing the clean data in the database.
 And it deletes the previous data and provides a new one every time the api is called.
+Get the latest trading price, main price, volume price, fall change, rise change, all time high, liquidity
 
 ## Installation
 
